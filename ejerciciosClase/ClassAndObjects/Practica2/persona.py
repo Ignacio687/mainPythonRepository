@@ -5,5 +5,6 @@ class Persona:
         self.nombre = nombre
     def __repr__(self):
         return f"Persona:{self.dni},{self.apellido},{self.nombre}"
-    def input(self):
-        self.dni = input('Ingrese DNI') 
+
+persona = Persona()
+print(persona)
