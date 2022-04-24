@@ -18,19 +18,4 @@ class SearchList():
         else:
             return False
 
-
-
-
-        # start = 0
-        # end = len(list)
-        # while list[start] or list[end] == value or start == end or start == (end-1):
-        #     if list[end//2-value] == value:
-        #         return True
-        #         break
-        #     elif list[(end-start)//2] > value:
-        #         end = (end//2)-1
-        #     elif list[end//2-start] < value:
-        #         start = start+(end//2-start)+1
-
-
 # hacer esto recursivo
