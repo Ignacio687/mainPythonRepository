@@ -3,14 +3,12 @@ from operator import truediv
 
 
 class CoffeeMachine():
-    def __init__(self,coins,coffee,sugarCoffee,amountCoffe = 450):
+    def __init__(self,coins = 0,coffee = 0,sugarCoffee = 0,amountCoffee = 150):
         self.coins = coins
         self.coffee = coffee
         self.sugarCoffee = sugarCoffee
-    def coins(self):
-        if self.coins >=1:
-            return True
-        else: return False
-    def give(self):
-        operations = {}
-        if self.coins > 1 and self.coffee >
+        self.amountCoffee = amountCoffee
+    def insertCoin(self,coins):
+        self.coins =+ coins
+    def giveCoffee(self,):
+        
