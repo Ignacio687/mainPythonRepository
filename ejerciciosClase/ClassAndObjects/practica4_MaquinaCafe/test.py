@@ -13,7 +13,7 @@ class CoffeMachine(unittest.TestCase):
         machine = CoffeeMachine()
         self.assertEqual(machine.giveCoffe(0),'Not enough coins')
         self.assertEqual(machine.giveCoffe(1),'Not enough coins')
-    def test_CoffePetitio(self):
+    def test_CoffePetition(self):
         machine = CoffeeMachine()
         machine.insertCoin(3)
         self.assertEqual(machine.giveCoffe(0),'Give Black Coffee')
