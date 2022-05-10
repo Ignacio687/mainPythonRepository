@@ -8,7 +8,20 @@ class CoffeeMachine():
         self.coffee = coffee
         self.sugarCoffee = sugarCoffee
         self.amountCoffee = amountCoffee
-    def insertCoin(self,coins):
-        self.coins =+ coins
-    def giveCoffee(self,):
-        
+    def insertCoin(self):
+        self.coins +=1
+    def giveCoffee(self, tipe):
+        if self.amountCoffee >= 25:
+            self.amountCoffee -=25
+            if self.coins > 0:
+                self.coins -=1
+                if tipe == 0:
+                    return 'Give Black Coffee'
+                else: return 'Give Black Coffee With Sugar'
+            else: return 'Not enough coins'
+        else: return 'No more coffee'
+    def returnCoin(self):
+        if self.coins >0:
+            self.coins -=1
+            return 'Give coin back'
+        else: return 'No coins'
