@@ -1,0 +1,18 @@
+Consigna:
+Construir una aplicación en Python que me permita manipular objetos personas a través de un objeto personaService, se puede agregar más clases si es necesario:
+Ejemplo:
+class PersonaService:
+  def loadFile():
+    pass
+  def writeFile():
+    pass
+  def add():
+    pass
+  def delete():
+    pass
+  def update():
+    pass
+  def findByDocumento():
+    pass
+  def findAll():
+    pass
