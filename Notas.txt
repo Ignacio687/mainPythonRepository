@@ -11,3 +11,5 @@ git@github.com:um-computacion-tm/numeros-romanos-Ignacio687.git
 
 Descargar SQLServer express
 Descargar Management Studio
+
+Practicar excepciones
