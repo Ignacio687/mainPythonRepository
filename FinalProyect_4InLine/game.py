@@ -5,7 +5,7 @@ class TieException(Exception):
 class WinnerException(Exception):
     pass
 
-class FourInrow:
+class FourInrow():
     
     def __init__(self):
         self.board = [['', '', '', '', '', '', '', ''], 
