@@ -1,3 +1,0 @@
-Sudoku(initial board)
-
-    def set_number(row,col,number)
