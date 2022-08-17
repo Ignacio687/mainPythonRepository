@@ -33,4 +33,3 @@ class FourInrow():
             if self.board[row][column] != '':
                 return row - 1
         return row
-    
