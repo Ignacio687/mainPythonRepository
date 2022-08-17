@@ -1,14 +1,14 @@
 import unittest
-from game import FourInrow, NoAvailablePositionException, TieException, WinnerException
+from game import FourInRow, NoAvailablePositionException, TieException, WinnerException
 from parameterized import parameterized
 
-class FourInrowTestCase(unittest.TestCase):
+class fourInRowTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.fourInrow = FourInrow()
+        self.fourInRow = FourInRow()
 
     def test_boardGeneration(self):
-        self.assertEqual(self.fourInrow.board(), [['', '', '', '', '', '', '', ''], 
+        self.assertEqual(self.fourInRow.board, [['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', ''], 
@@ -17,9 +17,17 @@ class FourInrowTestCase(unittest.TestCase):
                                                    ['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', '']])
 
-    def test_resetfourInrow(self):
-        self.fourInrow.resetBoard()
-        self.assertEqual(self.fourInrow.board(), [['', '', '', '', '', '', '', ''], 
+    def test_resetfourInRow(self):
+        self.fourInRow.board = [['', '', '', '', '', '', '', ''], 
+                                 ['', '', '', '', '', '', '1', ''], 
+                                 ['', '', '', '', '', '0', '', ''], 
+                                 ['', '', '', '', '1', '', '', ''], 
+                                 ['', '', '', '0', '', '', '', ''], 
+                                 ['', '', '1', '', '', '', '', ''], 
+                                 ['0', '', '', '', '', '', '', ''], 
+                                 ['', '', '', '', '', '', '', '0']]
+        self.fourInRow.resetBoard()
+        self.assertEqual(self.fourInRow.board, [['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', ''], 
@@ -28,9 +36,9 @@ class FourInrowTestCase(unittest.TestCase):
                                                    ['', '', '', '', '', '', '', ''], 
                                                    ['', '', '', '', '', '', '', '']])
     
-    @parameterized.expand([(0, 2), (1, 0),(2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 1)])
+    @parameterized.expand([(0, 5), (1, 7),(2, 4), (3, 3), (4, 2), (5, 1), (6, 0), (7, 6)])
     def test_NextcolumnPositionSelector(self, column, row):
-        self.fourInrow.board = [['', '', '', '', '', '', '', ''], 
+        self.fourInRow.board = [['', '', '', '', '', '', '', ''], 
                                  ['', '', '', '', '', '', '1', ''], 
                                  ['', '', '', '', '', '0', '', ''], 
                                  ['', '', '', '', '1', '', '', ''], 
@@ -38,23 +46,23 @@ class FourInrowTestCase(unittest.TestCase):
                                  ['', '', '1', '', '', '', '', ''], 
                                  ['0', '', '', '', '', '', '', ''], 
                                  ['', '', '', '', '', '', '', '0']]
-        self.assertEqual(self.fourInrow.NAPIRS(column), row)
+        self.assertEqual(self.fourInRow.NAPIRS(column), row)
 
-    # @parameterized.expand([(0,),(3,),(7,)])
-    # def test_NextcolumnPositionSelect_Exception(self, column):
-    #     self.fourInrow.board = [['0', '', '', '0', '', '', '', '1'], 
-    #                              ['', '', '', '', '', '', '1', ''], 
-    #                              ['', '', '', '', '', '0', '', ''], 
-    #                              ['', '', '', '', '1', '', '', ''], 
-    #                              ['', '', '', '', '', '', '', ''], 
-    #                              ['', '', '1', '', '', '', '', ''], 
-    #                              ['', '', '', '', '', '', '', ''], 
-    #                              ['', '', '', '', '', '', '', '']]
-    #     with self.assertRaises(NoAvailablePositionException):
-    #         self.fourInrow.NAPIRS(column)
+    @parameterized.expand([(0,),(3,),(7,)])
+    def test_NextcolumnPositionSelect_Exception(self, column):
+        self.fourInRow.board = [['0', '', '', '0', '', '', '', '1'], 
+                                 ['', '', '', '', '', '', '1', ''], 
+                                 ['', '', '', '', '', '0', '', ''], 
+                                 ['', '', '', '', '1', '', '', ''], 
+                                 ['', '', '', '', '', '', '', ''], 
+                                 ['', '', '1', '', '', '', '', ''], 
+                                 ['', '', '', '', '', '', '', ''], 
+                                 ['', '', '', '', '', '', '', '']]
+        with self.assertRaises(NoAvailablePositionException):
+            self.fourInRow.NAPIRS(column)
 
     # def test_InsertToken(self):
-    #     self.assertEqual(self.fourInrow.insertToken(3), [['', '', '', '', '', '', '', ''], 
+    #     self.assertEqual(self.fourInRow.insertToken(3), [['', '', '', '', '', '', '', ''], 
     #                                                       ['', '', '', '', '', '', '', ''], 
     #                                                       ['', '', '', '', '', '', '', ''], 
     #                                                       ['', '', '', '', '', '', '', ''], 
@@ -64,13 +72,13 @@ class FourInrowTestCase(unittest.TestCase):
     #                                                       ['', '', '', '0', '', '', '', '']])
     
     # def test_turnChange(self):
-    #     self.fourInrow.insertToken(4)
+    #     self.fourInRow.insertToken(4)
     #     self.assertEqual(self.turn(), 1)
-    #     self.fourInrow.insertToken(2)
+    #     self.fourInRow.insertToken(2)
     #     self.assertEqual(self.turn(), 0)
 
     # def test_InsertToken_Exception(self):
-    #     self.fourInrow.board = [['', '', '', '', '', '', '1', ''], 
+    #     self.fourInRow.board = [['', '', '', '', '', '', '1', ''], 
     #                              ['', '', '', '', '', '', '0', ''], 
     #                              ['', '', '', '', '', '', '0', ''], 
     #                              ['', '', '', '', '', '', '1', ''], 
@@ -79,10 +87,10 @@ class FourInrowTestCase(unittest.TestCase):
     #                              ['', '', '', '', '', '', '1', ''], 
     #                              ['', '', '', '', '', '', '0', '']]
     #     with self.assertRaises(NoAvailablePositionException):
-    #         self.fourInrow.insertToken(6)
+    #         self.fourInRow.insertToken(6)
     
     # def test_tie(self):
-    #     self.fourInrow.board = [['1', '1', '1', '', '1', '1', '1', '1'], 
+    #     self.fourInRow.board = [['1', '1', '1', '', '1', '1', '1', '1'], 
     #                              ['1', '1', '1', '1', '1', '1', '1', '1'], 
     #                              ['1', '1', '1', '1', '1', '1', '1', '1'], 
     #                              ['1', '1', '1', '1', '1', '1', '1', '1'], 
@@ -90,9 +98,9 @@ class FourInrowTestCase(unittest.TestCase):
     #                              ['1', '1', '1', '1', '1', '1', '1', '1'], 
     #                              ['1', '1', '1', '1', '1', '1', '1', '1'], 
     #                              ['1', '1', '1', '1', '1', '1', '1', '1']]
-    #     self.fourInrow.insertToken(3)
+    #     self.fourInRow.insertToken(3)
     #     with self.assertRaises(TieException):
-    #         self.fourInrow.insertToken(5)
+    #         self.fourInRow.insertToken(5)
     
     # @parameterized.expand([([    ['', '', '', '', '', '', '', ''], 
     #                              ['', '', '', '', '', '', '', ''], 
@@ -122,9 +130,9 @@ class FourInrowTestCase(unittest.TestCase):
     #                              ['1', '1', '1', '1', '1', '1', '1', '1']
     #                         ], 6)])
     # def test_Winner(self, board, column):
-    #     self.fourInrow.board = board
+    #     self.fourInRow.board = board
     #     with self.assertRaises(WinnerException):
-    #         self.fourInrow.insertToken(column)
+    #         self.fourInRow.insertToken(column)
 
 if __name__=='__main__':
     unittest.main()
