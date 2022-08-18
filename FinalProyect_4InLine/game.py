@@ -25,6 +25,9 @@ class FourInRow():
     def insertToken(self, column):
         row = self.NAPIRS(column)
         self.board[row][column] = self.turn
+        if row == 0:
+            if self.board[0].count('') == 0:
+                raise TieException
         self.verifyLine(row)
         self.verifyColumn(column)
         self.verifyDiagonalToTheRigth(row, column)
