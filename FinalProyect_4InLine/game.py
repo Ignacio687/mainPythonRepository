@@ -27,7 +27,8 @@ class FourInRow():
         self.board[row][column] = self.turn
         self.verifyLine(row)
         self.verifyColumn(column)
-        self.verifyDiagonal(row, column)
+        self.verifyDiagonalToTheRigth(row, column)
+        self.verifyDiagonalToTheLeft(row, column)
         self.turn = 1 - self.turn
     
     def verifyLine(self, row):
@@ -42,13 +43,16 @@ class FourInRow():
             tokenCounter = tokenCounter+1 if self.board[row][column] == self.turn else 0
             if tokenCounter >= 4: raise WinnerException
     
-    def verifyDiagonal(self, row, column):
+    def verifyDiagonalToTheRigth(self, row, column):
         tokenCounter = 0
-        interval = (column-row, 8-(column-row)) if (column-row) >= 0 else (row-column, 8-(row-column))
-        for counter in range(interval[0], interval[1]):
-            tokenCounter = tokenCounter+1 if self.board[counter][counter] == self.turn else 0
+        startPoint = (column-row) if column-row > 0 else (row-column)
+        for counter in range(startPoint, 8):
+            tokenCounter = tokenCounter+1 if self.board[counter-startPoint if column-row > 0 else counter][counter-startPoint if column-row < 0 else counter] == self.turn else 0
             if tokenCounter >= 4: raise WinnerException
-        # interval = (column+row, column+row+1) if (column-row) >= 0 else (row-column, 8-(row-column))
-        # for counter in range(interval(0), interval(1)):
-        #     tokenCounter = tokenCounter+1 if self.board[counter][counter] == self.turn else 0
-        #     if tokenCounter >= 4: raise WinnerException
+    
+    def verifyDiagonalToTheLeft(self, row, column):
+        tokenCounter = 0
+        startPoint = (column+row) if column+row <= 7 else (row-(7-column))
+        for counter in range(startPoint, -1 if column+row <= 7 else 8, -1 if column+row <= 7 else 1):
+            tokenCounter = tokenCounter+1 if self.board[counter if column+row > 7 else startPoint-counter][counter if column+row <= 7 else 7-(counter-startPoint)] == self.turn else 0
+            if tokenCounter >= 4: raise WinnerException
