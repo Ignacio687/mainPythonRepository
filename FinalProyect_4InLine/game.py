@@ -1,8 +1,15 @@
+from curses.ascii import isdigit
+
+
 class NoAvailablePositionException(Exception):
     pass
 class TieException(Exception):
     pass
 class WinnerException(Exception):
+    pass
+class OutOfRangeException(Exception):
+    pass
+class formatException(Exception):
     pass
 
 class FourInRow():
@@ -23,6 +30,12 @@ class FourInRow():
         return row
     
     def insertToken(self, column):
+        try:
+            column = int(column)
+        except ValueError:
+            raise formatException(f'{column} is not a whole number')
+        if column > 7:
+            raise OutOfRangeException
         row = self.NAPIRS(column)
         self.board[row][column] = self.turn
         if row == 0:

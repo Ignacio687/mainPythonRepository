@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from game import FourInRow, NoAvailablePositionException, TieException, WinnerException
+from game import FourInRow, NoAvailablePositionException, TieException, WinnerException, OutOfRangeException, formatException
 from parameterized import parameterized
 
 class fourInRowTestCase(unittest.TestCase):
@@ -90,6 +90,17 @@ class fourInRowTestCase(unittest.TestCase):
                                  ['', '', '', '', '', '', 0, '']]
         with self.assertRaises(NoAvailablePositionException):
             self.fourInRow.insertToken(6)
+
+    def test_InsertToken_OutOfRangeException(self):
+        with self.assertRaises(OutOfRangeException):
+            self.fourInRow.insertToken(11)
+
+    def test_InsertToken_OutOfRangeException(self):
+        with self.assertRaises(formatException):
+            self.fourInRow.insertToken('#')
+        with self.assertRaises(formatException):
+            self.fourInRow.insertToken('a')
+
 
     @parameterized.expand([(
                             [['', '', '', '', '', '', '', ''], 
@@ -203,7 +214,7 @@ class fourInRowTestCase(unittest.TestCase):
                         [['', '', '', '', '', '', '', ''], 
                             ['', '', '', '', '', '', '', ''], 
                             ['', '', '', '', '', '', '', ''], 
-                            ['', '', '', '', '', '', '', 0], 
+                            ['', '', '', '', '', '', '', ''], 
                             ['', '', '', '', '', '', 0, ''], 
                             ['', '', '', '', '', 0, '', ''], 
                             ['', '', '', '', '', '', '', ''], 
@@ -214,7 +225,127 @@ class fourInRowTestCase(unittest.TestCase):
         self.fourInRow.board = board
         with self.assertRaises(WinnerException):
             self.fourInRow.insertToken(column) 
+#here
+    @parameterized.expand([(
+                            [['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', 0, 0, '', ''], 
+                             ['', '', '', '', '', 0, 1, ''], 
+                             ['', '', '', '', '', 0, 1, '']], 6
+                           ),
+                           (
+                             [['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', '', '', ''], 
+                              ['', '', '', '', '', 0, 0, '']], 4
+                           )
+                          ])
+    def test_VerifyLineWinnerCondition_NotRaise(self, board, column):
+        self.fourInRow.board = board
+        self.fourInRow.insertToken(column)
+
+    @parameterized.expand([(
+                        [['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', 0, '', ''], 
+                            ['', '', '', 0, 0, 1, 1, ''], 
+                            ['', '', '', '', '', 0, '', ''], 
+                            ['', '', '', '', '', 1, '', '']], 5 
+                        ),
+                        (
+                            [['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', 0, ''], 
+                            ['', '', '', '', '', '', 0, ''], 
+                            ['', '', '', '', '', '', 1, ''], 
+                            ['', '', '', '', '', '', 1, ''], 
+                            ['', '', '', '', '', '', 0, ''], 
+                            ['', '', '', '', '', '', 1, ''], 
+                            ['', '', '', '', '', 1, 0, 1]], 6
+                        )
+                        ])
+    def test_VerifyColumnWinnerCondition_NotRaise(self, board, column):
+        self.fourInRow.board = board
+        self.fourInRow.insertToken(column) 
+
+    @parameterized.expand([(
+                            [[1, '', '', '', '', '', '', ''], 
+                             ['', 1, '', '', '', '', '', ''], 
+                             ['', '', 0, '', '', '', '', ''], 
+                             ['', '', '', 0, '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', 1, 1, '', ''], 
+                             ['', '', '', '', '', '', 0, ''], 
+                             ['', '', '', '', '', '', '', 1]], 4 
+                           ),
+                           (
+                            [['', '', '', '', 0, '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', 1, 0, ''], 
+                             ['', '', '', '', '', '', '', 1], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', '']], 5
+                           ),
+                           (
+                            [['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             [1, '', '', '', '', '', '', ''], 
+                             ['', 0, '', '', '', '', '', ''], 
+                             ['', '', 0, '', '', '', '', ''], 
+                             ['', '', '', '', '', '', '', ''], 
+                             ['', '', '', 1, 1, '', '', '']], 3
+                           )
+                          ])
+    def test_VerifyDiagonalToTheRigth_WinnerCondition_NotRaise(self, board, column):
+        self.fourInRow.board = board
+        self.fourInRow.insertToken(column) 
     
+    @parameterized.expand([(
+                        [['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', 0, 1], 
+                            ['', '', '', '', '', 0, '', ''], 
+                            ['', '', '', '', 1, '', '', ''], 
+                            ['', '', '', 1, '', '', '', ''], 
+                            ['', '', 0, '', '', '', '', ''], 
+                            ['', 0, '', '', '', '', '', ''], 
+                            [1, '', '', '', '', '', '', '']], 7
+                        ),
+                        (
+                        [['', '', '', 1, '', '', '', ''], 
+                            ['', '', 0, '', '', '', '', ''], 
+                            ['', 0, '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            [1, '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', '']], 0
+                        ),
+                        (
+                        [['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', '', '', '', 1, ''], 
+                            ['', '', '', '', '', 0, '', ''], 
+                            ['', '', '', '', '', '', '', ''], 
+                            ['', '', '', 0, 1, '', '', '']], 4
+                        )
+                        ])
+    def test_VerifyDiagonalToTheLeft_WinnerCondition_NotRaise(self, board, column):
+        self.fourInRow.board = board
+        self.fourInRow.insertToken(column) 
+
     def test_tie(self):
         self.fourInRow.board = [[0, 1, 0, '', 0, '', 1, 0], 
                                 ['', '', 1, 0, 0, 1, 0, ''], 
