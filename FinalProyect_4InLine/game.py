@@ -1,6 +1,3 @@
-from curses.ascii import isdigit
-
-
 class NoAvailablePositionException(Exception):
     pass
 class TieException(Exception):
@@ -63,12 +60,16 @@ class FourInRow():
         tokenCounter = 0
         startPoint = (column-row) if column-row > 0 else (row-column)
         for counter in range(startPoint, 8):
-            tokenCounter = tokenCounter+1 if self.board[counter-startPoint if column-row > 0 else counter][counter-startPoint if column-row < 0 else counter] == self.turn else 0
+            rowCounter = counter-startPoint if column-row > 0 else counter
+            columnCounter = counter-startPoint if column-row < 0 else counter
+            tokenCounter = tokenCounter+1 if self.board[rowCounter][columnCounter] == self.turn else 0
             if tokenCounter >= 4: raise WinnerException
     
     def verifyDiagonalToTheLeft(self, row, column):
         tokenCounter = 0
         startPoint = (column+row) if column+row <= 7 else (row-(7-column))
         for counter in range(startPoint, -1 if column+row <= 7 else 8, -1 if column+row <= 7 else 1):
-            tokenCounter = tokenCounter+1 if self.board[counter if column+row > 7 else startPoint-counter][counter if column+row <= 7 else 7-(counter-startPoint)] == self.turn else 0
+            rowCounter = counter if column+row > 7 else startPoint-counter
+            columnCounter = counter if column+row <= 7 else 7-(counter-startPoint)
+            tokenCounter = tokenCounter+1 if self.board[rowCounter][columnCounter] == self.turn else 0
             if tokenCounter >= 4: raise WinnerException

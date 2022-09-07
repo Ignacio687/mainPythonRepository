@@ -41,8 +41,6 @@ class Game():
                             gameStatus = True
                             break
                     
-
-
     def printBoard(self):
         board = self.game.board
         for line in range(1, len(board)+1):
